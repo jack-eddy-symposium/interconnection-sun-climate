@@ -10,7 +10,7 @@ This work is licensed under a
 [cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
 
 # interconnection-sun-climate
-Benmarking/Diagnostic will be found here.  Examples are:
+Benchmarking/Diagnostic will be found here.  Examples are:
   - Climate diagnostics package focused on solar-related metrics - T, q, o3, dynamics, clouds etc.
   - Use QBO, ENSO, MJO, NAO, AO, SAM diagnostics
   - Taylor diagrams for specific targets
