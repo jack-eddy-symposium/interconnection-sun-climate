@@ -14,4 +14,5 @@ This is where targets/observations for validation are found.  Examples are:
   - Terminator unit conversion (From Robert Leamon)
   - Satellite data (may be obtained using pySat)
       - SSU, MSU
-      - SBUV, Basic, SWOOSH, TIMED, MLS, AIRS, CrIS, etc....
+      - SBUV, Basic, SWOOSH
+      - TIMED, MLS, AIRS, CrIS, etc....
