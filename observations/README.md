@@ -16,3 +16,10 @@ This is where targets/observations for validation are found.  Examples are:
       - SSU, MSU
       - SBUV, Basic, SWOOSH
       - TIMED, MLS, AIRS, CrIS, etc....
+
+# Notes
+
+- MSU and SSU data added (UAH, RSS, and NOAA_STAR)
+- SAT data added (GISTEMP)
+- extraction scripts getXX should work except for SSU/get_noaastar
+  (needs nco).

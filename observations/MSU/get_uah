@@ -1,0 +1,49 @@
+# uah values TLS/TLT/TMT v6
+
+rm -f t*glhmam_6.0*.txt
+
+wget --no-check-certificate https://www.nsstc.uah.edu/data/msu/v6.0/tls/tlsglhmam_6.0.txt
+wget --no-check-certificate https://www.nsstc.uah.edu/data/msu/v6.0/tlt/tltglhmam_6.0.txt
+wget --no-check-certificate https://www.nsstc.uah.edu/data/msu/v6.0/tmt/tmtglhmam_6.0.txt
+
+#TLS lower strat
+
+\rm -f uah6_tls.txt
+echo "UAH v6.0 MSU-TLS" > uah6_tls.txt
+echo "Year" >> uah6_tls.txt
+echo "Temperature Anomaly (C)" >> uah6_tls.txt
+echo "Year UAH_v6.0_MSU-TLS" >> uah6_tls.txt
+
+tail -n +16 tlsglhmam_6.0.txt |grep -v '[A-Z]' | grep -v '999.000'| grep '[0-9]' | awk '{print $1+($2-0.5)/12 " " $3}' >> uah6_tls.txt
+
+# ann mean (skip dec 1978)
+head -4 uah6_tls.txt > uah6_tls_ann.txt
+tail -n +6 uah6_tls.txt | awk '{i=i+1; sum=sum+$2; if (i == 12) {print int($1) " " sum/12 ; i=0 ; sum=0}}' >> uah6_tls_ann.txt
+
+#TLT lower trop
+
+\rm -f uah6_tlt.txt
+echo "UAH v6.0 MSU-TLT" > uah6_tlt.txt
+echo "Year" >> uah6_tlt.txt
+echo "Temperature Anomaly (C)" >> uah6_tlt.txt
+echo "Year UAH_v6.0_MSU-TLT" >> uah6_tlt.txt
+
+tail -n +16 tltglhmam_6.0.txt |grep -v '[A-Z]' |grep -v '999.000'|  grep '[0-9]' | awk '{print $1+($2-0.5)/12 " " $3}' >> uah6_tlt.txt
+
+# ann mean (skip dec 1978)
+head -4 uah6_tlt.txt > uah6_tlt_ann.txt
+tail -n +6 uah6_tlt.txt | awk '{i=i+1; sum=sum+$2; if (i == 12) {print int($1) " " sum/12 ; i=0 ; sum=0}}' >> uah6_tlt_ann.txt
+
+#TMT mid trop
+
+\rm -f uah6_tmt.txt
+echo "UAH v6.0 MSU-TMT" > uah6_tmt.txt
+echo "Year" >> uah6_tmt.txt
+echo "Temperature Anomaly (C)" >> uah6_tmt.txt
+echo "Year UAH_v6.0_MSU-TMT" >> uah6_tmt.txt
+
+tail -n +16 tmtglhmam_6.0.txt |grep -v '[A-Z]' | grep -v '999.000'| grep '[0-9]' | awk '{print $1+($2-0.5)/12 " " $3}' >> uah6_tmt.txt
+
+# ann mean (skip dec 1978)
+head -4 uah6_tmt.txt > uah6_tmt_ann.txt
+tail -n +6 uah6_tmt.txt | awk '{i=i+1; sum=sum+$2; if (i == 12) {print int($1) " " sum/12 ; i=0 ; sum=0}}' >> uah6_tmt_ann.txt
