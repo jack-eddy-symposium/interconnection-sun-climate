@@ -13,9 +13,15 @@ This work is licensed under a
 This is the repository for projects in the "The Interconnection of Sun, Climate, and Society" for the 3rd Jack Eddy Symposium. It is a place for scripts, issues, discussions, resources related to those projects.
 
 Contributors (as of June 9, 2022):
+
 Daniel R. Marsh (NCAR, U Leeds)
+
 Gavin A. Schmidt (NASA GISS)
+
 Robert J. Leamon (NASA GSFC)
+
 Alexa J. Halford (NASA GFSC)
+
 Andrés Muñoz-Jaramillo (SwRI)
+
 King-Fai Li (UC Riverside)
