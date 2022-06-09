@@ -1,0 +1,7 @@
+# Data formats
+*.nc
+
+# Images
+*.png
+*.jpeg
+*.bmp
