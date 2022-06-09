@@ -1,11 +1,12 @@
 #!/bin/tcsh
+# Usage ./get_rss4 user passwd
 
 # get up to date rss data and make lp files
 
 rm RSS_*v04_0.txt*
-wget --user=gavin.a.schmidt@nasa.gov --password=gavin.a.schmidt@nasa.gov ftp://ftp.remss.com/msu/graphics/tmt_v40/time_series/RSS_TS_channel_TMT_Global_Land_And_Sea_v04_0.txt
-wget --user=gavin.a.schmidt@nasa.gov --password=gavin.a.schmidt@nasa.gov ftp://ftp.remss.com/msu/graphics/tlt_v40/time_series/RSS_TS_channel_TLT_Global_Land_And_Sea_v04_0.txt
-wget --user=gavin.a.schmidt@nasa.gov --password=gavin.a.schmidt@nasa.gov ftp://ftp.remss.com/msu/graphics/TLS_v40/time_series/RSS_TS_channel_TLS_Global_Land_and_Sea_v04_0.txt
+wget --user=$1 --password=$2 ftp://ftp.remss.com/msu/graphics/tmt_v40/time_series/RSS_TS_channel_TMT_Global_Land_And_Sea_v04_0.txt
+wget --user=$1 --password=$2 ftp://ftp.remss.com/msu/graphics/tlt_v40/time_series/RSS_TS_channel_TLT_Global_Land_And_Sea_v04_0.txt
+wget --user=$1 --password=$2 ftp://ftp.remss.com/msu/graphics/TLS_v40/time_series/RSS_TS_channel_TLS_Global_Land_and_Sea_v04_0.txt
 
 #TMT
 \rm -f rss4_tmt.txt
