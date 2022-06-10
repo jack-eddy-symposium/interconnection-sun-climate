@@ -1,0 +1,46 @@
+# download NOAA STAR MSU
+# version 4.1
+# DISABLED download of MSU-TMT full field
+
+rm -rf NESDIS*
+
+# all files
+wget -r -nd ftp://ftp.star.nesdis.noaa.gov/pub/smcd/emb/mscat/data/MSU_AMSU_v4.1/Monthly_Atmospheric_Layer_Mean_Temperature/Global_Mean_Anomaly_Time_Series/
+
+## download full file to calculate trop tmt
+#wget -r -nd ftp://ftp.star.nesdis.noaa.gov/pub/smcd/emb/mscat/data/MSU_AMSU_v3.0/Monthly_Atmospheric_Layer_Mean_Temperature/Merged_Deep-Layer_Temperature/NESDIS-STAR_TCDR_TMT_Merged_MSU2_AMSUA5_Monthly*Anomaly.dat
+#wget -r -nd ftp://ftp.star.nesdis.noaa.gov/pub/smcd/emb/mscat/data/MSU_AMSU_v4.1/Monthly_Atmospheric_Layer_Mean_Temperature/Merged_Deep-Layer_Temperature/NESDIS-STAR_TCDR_TMT_Merged_MSU2_AMSUA5_Monthly*Anomaly.dat
+
+## tidy
+mv NESDIS-STAR_TCDR_TMT_Merged_MSU2_AMSUA5_Monthly_*_V4.1_Anomaly.dat NESDIS_v4.1_TMT.dat
+
+echo "NOAA NESDIS STAR TMT" > noaa_star4.1_tmt.lp
+echo "Year" >> noaa_star4.1_tmt.lp
+echo "Temperature Anomaly (C)" >> noaa_star4.1_tmt.lp
+echo "Year NOAA_STAR_TMT_4.1" >> noaa_star4.1_tmt.lp
+tail -n +2 NESDIS-STAR_TCDR_TMT*_V4.1_Regional_Means_Anomaly.txt | awk '{print $3 " " $4}' >> noaa_star4.1_tmt.lp
+echo " " >> noaa_star4.1_tmt.lp
+
+echo "NOAA NESDIS STAR TLS" > noaa_star4.1_tls.lp
+echo "Year" >> noaa_star4.1_tls.lp
+echo "Temperature Anomaly (C)" >> noaa_star4.1_tls.lp
+echo "Year NOAA_STAR_TLS_4.1" >> noaa_star4.1_tls.lp
+tail -n +2 NESDIS-STAR_TCDR_TLS*_V4.1_Regional_Means_Anomaly.txt | awk '{print $3 " " $4}' >> noaa_star4.1_tls.lp
+echo " " >> noaa_star4.1_tls.lp
+
+## tropical mean tmt
+#./read_noaa_star NESDIS_v3.0_TMT.dat 494 > noaa_star_tmt_trop.lp
+#./read_noaa_star NESDIS_v4.1_TMT.dat 494 > noaa_star_tmt4.1_trop.lp
+
+# annual means
+# v4.1
+
+head -4 noaa_star4.1_tmt.lp > noaa_star4.1_tmt_ann.lp
+tail -n +7 noaa_star4.1_tmt.lp | awk '{i=i+1; sum=sum+$2; if (i == 12) {print int($1) " " sum/12 ; i=0 ; sum=0}}' >> noaa_star4.1_tmt_ann.lp
+
+head -4 noaa_star4.1_tls.lp > noaa_star4.1_tls_ann.lp
+tail -n +7 noaa_star4.1_tls.lp | awk '{i=i+1; sum=sum+$2; if (i == 12) {print int($1) " " sum/12 ; i=0 ; sum=0}}' >> noaa_star4.1_tls_ann.lp
+
+#head -4 noaa_star_tmt4.1_trop.lp > noaa_star_tmt4.1_trop_ann.lp
+#tail -n +7 noaa_star_tmt4.1_trop.lp | awk '{i=i+1; sum=sum+$2; if (i == 12) {print int($1) " " sum/12 ; i=0 ; sum=0}}' >> noaa_star_tmt4.1_trop_ann.lp
+

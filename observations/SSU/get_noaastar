@@ -1,0 +1,21 @@
+# download NOAA STAR SSU
+
+rm -rf ssu.nc
+
+# download SSU merged data set
+wget -r -nd ftp://ftp.star.nesdis.noaa.gov/pub/smcd/emb/mscat/data/SSU/SSU_v3.0/SSU_AMSU_ATMS_Monthly_Layer_Temperature/noaa-star_tcdr_merged_ssu_amsua-eqv_montnly_s197811-*v3.0.nc -O ssu.nc
+
+# process SSU file
+
+ncatted -O -a _FillValue,,o,f,-9999.0 ssu.nc
+ncap2 -A -s "area=cos(latitude*3.14159/180)" ssu.nc ssu.nc
+ncwa -O -a longitude ssu.nc zm.nc
+ncwa -O -w area -a latitude -v tb zm.nc glb.nc
+
+echo "NOAA STAR SSU" > ssu_abs.txt
+echo "Year" >> ssu_abs.txt
+echo "Brightness Temperature (K)" >> ssu_abs.txt
+echo "Year SSU_Ch1 SSU_Ch2 SSU_Ch3" >> ssu_abs.txt
+ncdump -v tb glb.nc | tail +49 | sed 's/ _/ ****/g' | awk -F, 'BEGIN{i=1978+(11-0.5)/12 } {print i " " $1 " " $2 " " $3 ; i=i+1/12 }' | grep -v "}" | sed 's/;//g' >> ssu_abs.txt
+
+rm -rf ssu.nc zm.nc glb.nc

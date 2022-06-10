@@ -1,0 +1,50 @@
+#!/bin/tcsh
+# Usage ./get_rss4 user passwd
+
+# get up to date rss data and make lp files
+
+rm RSS_*v04_0.txt*
+wget --user=$1 --password=$2 ftp://ftp.remss.com/msu/graphics/tmt_v40/time_series/RSS_TS_channel_TMT_Global_Land_And_Sea_v04_0.txt
+wget --user=$1 --password=$2 ftp://ftp.remss.com/msu/graphics/tlt_v40/time_series/RSS_TS_channel_TLT_Global_Land_And_Sea_v04_0.txt
+wget --user=$1 --password=$2 ftp://ftp.remss.com/msu/graphics/TLS_v40/time_series/RSS_TS_channel_TLS_Global_Land_and_Sea_v04_0.txt
+
+#TMT
+\rm -f rss4_tmt.txt
+echo "RSS MSU-TMT v4.0" > rss4_tmt.txt
+echo "Year" >> rss4_tmt.txt
+echo "Temperature Anomaly (C)" >> rss4_tmt.txt
+echo "Year RSSv4_MSU-TMT" >> rss4_tmt.txt
+
+tail -n +6 RSS_TS_channel_TMT_Global_Land_And_Sea_v04_0.txt | grep -v "\-99\.9000" | awk '{print $1+($2-0.5)/12 " " $3}' >> rss4_tmt.txt
+
+# ann mean
+head -4 rss4_tmt.txt > rss4_tmt_ann.txt
+tail -n +5 rss4_tmt.txt | awk '{i=i+1; sum=sum+$2; if (i == 12) {print int($1) " " sum/12 ; i=0 ; sum=0}}' >> rss4_tmt_ann.txt
+
+#TLT
+
+\rm -f rss4_tlt.txt
+echo "RSS MSU-TLT v4.0" > rss4_tlt.txt
+echo "Year" >> rss4_tlt.txt
+echo "Temperature Anomaly (C)" >> rss4_tlt.txt
+echo "Year RSSv4_MSU-TLT" >> rss4_tlt.txt
+
+tail -n +6 RSS_TS_channel_TLT_Global_Land_And_Sea_v04_0.txt | grep -v "\-99\.9000" | awk '{print $1+($2-0.5)/12 " " $3}' >> rss4_tlt.txt
+
+# ann mean
+head -4 rss4_tlt.txt > rss4_tlt_ann.txt
+tail -n +5 rss4_tlt.txt | awk '{i=i+1; sum=sum+$2; if (i == 12) {print int($1) " " sum/12 ; i=0 ; sum=0}}' >> rss4_tlt_ann.txt
+
+#TLS
+
+\rm -f rss4_tls.txt
+echo "RSS MSU-TLS v4.0" > rss4_tls.txt
+echo "Year" >> rss4_tls.txt
+echo "Temperature Anomaly (C)" >> rss4_tls.txt
+echo "Year RSSv4_MSU-TLS" >> rss4_tls.txt
+
+tail -n +6 RSS_TS_channel_TLS_Global_Land_And_Sea_v04_0.txt | grep -v "\-99\.9000" | awk '{print $1+($2-0.5)/12 " " $3}' >> rss4_tls.txt
+
+# ann mean
+head -4 rss4_tls.txt > rss4_tls_ann.txt
+tail -n +5 rss4_tls.txt | awk '{i=i+1; sum=sum+$2; if (i == 12) {print int($1) " " sum/12 ; i=0 ; sum=0}}' >> rss4_tls_ann.txt
