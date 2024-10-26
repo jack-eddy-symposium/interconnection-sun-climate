@@ -1,0 +1,39 @@
+name: sun-climate-bayes
+channels:
+  - conda-forge
+dependencies:
+  - xarray
+  - dask
+  - arviz
+  - packaging
+  - bottleneck
+  - cftime
+  - numbagg
+  - netcdf4
+  - matplotlib
+  - seaborn
+  - nc-time-axis
+  - scipy
+  - h5py
+  - pyopencl
+  - jpype1
+  - networkx
+  - ecos
+  - prettytable
+  - mpmath
+  - cython
+  - numba
+  - cudatoolkit
+  - cartopy
+  - tqdm
+  - ipywidgets
+  - pip
+  - pip:
+    - tensorrt
+    - tensorflow-probability
+    - numpyro
+    - funsor
+    - corner
+    - graphviz
+    - "jax[cuda12_pip]" 
+    - -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
