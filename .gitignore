@@ -1,3 +1,8 @@
 .DS_Store
 
 *.nc
+
+*.csv
+*.pkl
+*.pyc
+*.txt
