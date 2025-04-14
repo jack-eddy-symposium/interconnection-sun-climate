@@ -2,8 +2,11 @@ name: sun-climate-bayes
 channels:
   - conda-forge
 dependencies:
+  - numpy<2
   - xarray
+  - colorcet
   - dask
+  - dill
   - arviz
   - packaging
   - bottleneck
@@ -31,9 +34,8 @@ dependencies:
   - pip:
     - tensorrt
     - tensorflow-probability
-    - numpyro
     - funsor
     - corner
     - graphviz
-    - "jax[cuda12_pip]" 
-    - -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+    - "jax[cuda12]"  
+    - jaxns
