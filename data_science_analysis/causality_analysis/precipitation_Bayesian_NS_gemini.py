@@ -42,6 +42,9 @@ handler = logging.StreamHandler(sys.stdout)
 handler.setLevel(log_level)
 handler.setFormatter(log_format)
 LOG.addHandler(handler)
+
+logger = logging.getLogger("jax")
+logger.setLevel(logging.WARNING)
 # Note: Logging from multiple processes to stdout can get interleaved.
 # For cleaner logs, consider logging to separate files per worker or using a QueueHandler.
 
@@ -49,7 +52,7 @@ LOG.addHandler(handler)
 DATA_SMOOTHING = 30
 # --- !!! IMPORTANT: Update DATA_LABEL for precipitation !!! ---
 DATA_LABEL = "precipitation" # Changed from "air_temperature"
-COARSEN_LEVELS = [4]
+COARSEN_LEVELS = [8, 2]
 CONSTRUCTOR_KWARGS = {
     "max_samples": 40000,
     "parameter_estimation": True,
@@ -230,9 +233,19 @@ def run_single_task(args):
         # Save results using dill
         with open(output_file, "wb") as f:
             dill.dump(output_dictionary, f)
+
+        # --- ADDED LINE: Attempt to clear JAX caches ---
+        jax.clear_caches()
+        # --- END ADDED LINE ---
+
         return f"Completed: {os.path.basename(output_file)}"
 
     except Exception as e:
+        # --- ADDED LINE: Attempt cache clearing even on error ---
+        # This might help if the error itself left things in a bad state,
+        # though it won't fix the root cause of the error.
+        jax.clear_caches()
+        # --- END ADDED LINE ---
         LOG.error(f"Worker error for {config['name']} at Lat {lat:.2f}, Lon {lon:.2f}: {e}", exc_info=False)
         return f"Error: Lat {lat:.2f}, Lon {lon:.2f} - {e}"
 
