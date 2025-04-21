@@ -1,0 +1,46 @@
+# Configuration for Air Temperature Analysis
+
+data:
+  label: air_temp
+  input_file: /d0/amunozj/git_repos/interconnection-sun-climate/air_temperature/air.2m.gauss.nc
+  var_name: air
+  dimensions:
+    lon: lon       # Dimension name for longitude
+    lat: lat       # Dimension name for latitude
+    time: time     # Dimension name for time
+
+processing:
+  coarsen_levels: [4] # List of spatial coarsening factors
+  smoothing: 30       # Temporal smoothing factor
+
+execution:
+  output_dir: /d0/amunozj/git_repos/interconnection-sun-climate/outputs # Base output directory
+  workers: 4          # Number of parallel workers
+  nested_sampler:
+    max_samples: 40000
+    num_posterior_samples: 5000
+
+priors: # --- CRITICAL: Adjust based on expected variable scale ---
+  sigma_scale: 20.0
+  offset_mean: 270.0
+  offset_std: 40.0
+  seasonal_amp_mean: 20.0
+  seasonal_amp_std: 20.0
+  seasonal_exp_scale: 2.0
+  co2_gain_mean: 5.0   # Adjusted from original script's 20.0 based on previous example run
+  co2_gain_std: 10.0   # Adjusted from original script's 20.0 based on previous example run
+  oni_gain_mean: 0.0
+  oni_gain_std: 2.0    # From original air_temp script
+  oni_shift_mean: 0.0
+  oni_shift_std: 0.5
+  cr_gain_mean: 0.0
+  cr_gain_std: 2.0     # From original air_temp script
+  cr_shift_mean: 0.0
+  cr_shift_std: 1.0
+
+external_data: # Optional: Paths to external datasets
+  oni:
+    file_path: /d0/amunozj/git_repos/interconnection-sun-climate/ENI/detrend.nino34.ascii.txt
+  cr:
+    file_path: /d0/amunozj/git_repos/interconnection-sun-climate/data/cosmic_rays/OULU_1964_05_01 _00_00_2024_10_28 _23_30.csv
+    var_name: CorrectedCountRate # Variable name within the CR CSV file
